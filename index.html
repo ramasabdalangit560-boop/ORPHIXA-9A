@@ -148,7 +148,7 @@
         }
 
         .gallery-item {
-            background-color: #d1d5db; /* Warna bingkai abu-abu terang ala foto contoh */
+            background-color: #d1d5db;
             border: 3px solid #000;
             padding: 8px 8px 4px 8px;
             text-align: center;
@@ -158,7 +158,7 @@
         .gallery-item img {
             width: 100%;
             max-height: 180px;
-            object-fit: contain; /* Bikin foto utuh, tidak ke-crop */
+            object-fit: contain;
             background-color: #000;
             border: 2px solid #000;
             display: block;
@@ -259,7 +259,7 @@
 
     <div class="container">
         
-        <!-- FITUR GALERI FOTO KELAS (DIPINDAH KE ATAS) -->
+        <!-- FITUR GALERI FOTO KELAS -->
         <div class="orp-card">
             <div class="orp-title">📸 Galeri Foto Kenangan 9A</div>
             <div class="upload-section">
@@ -404,11 +404,15 @@
 
             snapshot.forEach((documentSnapshot) => {
                 const data = documentSnapshot.data();
+                
+                // PENGAMAN: Jika data foto rusak/tidak ada linknya, abaikan agar tidak bikin kotak kosong
+                if (!data.imageUrl) return;
+
                 const card = document.createElement("div");
                 card.className = "gallery-item";
                 card.innerHTML = `
                     <img src="${data.imageUrl}" alt="Foto">
-                    <p>By: ${escapeHtml(data.name)}</p>
+                    <p>By: ${escapeHtml(data.name || "Tanpa Nama")}</p>
                     <button class="del-btn" onclick="hapusFoto('${documentSnapshot.id}')">Hapus</button>
                 `;
                 container.appendChild(card);
@@ -548,4 +552,4 @@
     </script>
 </body>
     </html>
-                                             
+    
